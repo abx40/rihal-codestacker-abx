@@ -1,0 +1,2 @@
+# No additional pip dependencies are required for this baseline submission.
+# OCR fallback uses the `tesseract` system binary (not a pip package).

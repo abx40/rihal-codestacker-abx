@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "docfusion-baseline"
+version = "0.1.0"
+description = "Baseline submission for CodeStacker 2026 DocFusion challenge"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "jupyter>=1.1.1",
+  "matplotlib>=3.9.0",
+]
