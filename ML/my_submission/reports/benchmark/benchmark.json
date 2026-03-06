@@ -1,0 +1,10 @@
+{
+  "model_dir": "/Users/abx/rihal/rihal-codestacker/ML/my_submission/tmp_benchmark/model",
+  "model_size_mb": 0.23201656341552734,
+  "predict_peak_mb": 1.0285158157348633,
+  "predict_seconds": 0.4811629999894649,
+  "predictions_count": 10,
+  "predictions_path": "/Users/abx/rihal/rihal-codestacker/ML/my_submission/tmp_benchmark/predictions.jsonl",
+  "train_peak_mb": 1.7599287033081055,
+  "train_seconds": 1.2827497909311205
+}

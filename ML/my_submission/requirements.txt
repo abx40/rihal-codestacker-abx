@@ -1,2 +1,5 @@
-# No additional pip dependencies are required for this baseline submission.
-# OCR fallback uses the `tesseract` system binary (not a pip package).
+numpy>=2.0.0
+scikit-learn>=1.5.0
+Pillow>=10.4.0
+streamlit>=1.42.0
+datasets>=3.2.0

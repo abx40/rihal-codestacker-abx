@@ -1,0 +1,9 @@
+.venv/
+.cache/
+__pycache__/
+*.pyc
+tmp_benchmark/
+tmp_work/
+data/raw/
+models/
+.git/
