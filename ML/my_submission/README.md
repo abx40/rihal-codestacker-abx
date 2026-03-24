@@ -7,10 +7,43 @@ This project now includes:
 - End-to-end `DocFusionSolution` (`train`/`predict`) for autograder harness
 - Unified data pipeline scripts for SROIE + CORD + Find-It-Again
 - OCR-based field extraction (`vendor`, `date`, `total`)
-- Hybrid anomaly detection (`is_forged`) using rules + optional sklearn model
-- Streamlit web UI with receipt upload and field highlight boxes
+- Feature-based anomaly detection (`is_forged`) using structured checks + image features
+- Streamlit web UI with receipt upload, evidence review, and field highlight boxes
 - Benchmark script with latency/memory/model-size report output
 - EDA + extraction + anomaly notebooks
+
+## 0) Submission Status
+
+Local submission contract status as of **March 17, 2026**:
+
+- `check_submission.py` passes locally
+- `DocFusionSolution.train()` / `predict()` are implemented
+- Streamlit UI is runnable from `app.py`
+- Dockerfile is included
+
+Current implementation status:
+
+- `Level 1`: completed
+- `Level 2`: implemented, but `total` extraction remains the weakest field
+- `Level 3A`: implemented with a feature-based anomaly model
+- `Level 3B`: implemented with a basic review UI
+- `Level 4`: local harness contract passes
+
+Known limitations:
+
+- `total` extraction is still unstable on some CORD layouts
+- anomaly quality is functional but not fully optimized
+- suspicious highlighting is field-box based, not precise forged-region localization
+- the anomaly model weights were trained earlier on the unified-full training build; after the latest extraction heuristic changes, anomaly benchmarking was not fully rerun end-to-end
+
+Latest verified extraction report:
+
+- `reports/benchmark/extraction_metrics_line_rank_20260317.json`
+
+Latest verified anomaly benchmark snapshot before the final extraction-only tweaks:
+
+- `reports/benchmark/final_tuned_metrics_20260317.json`
+- `reports/benchmark/final_tuned_metrics_20260317.md`
 
 ## 1) Project Layout
 
@@ -120,7 +153,7 @@ python3.13 check_submission.py --submission ./my_submission --data ./dummy_data
 - date normalization (numeric + month text)
 - total scoring with keyword/exclusion heuristics
 - vendor fuzzy matching
-- hybrid anomaly model (rules + sklearn random forest when available)
+- feature-based anomaly model (LightGBM + outlier checks + math-profile features)
 
 ## 6) Level 3 Web UI
 
@@ -134,24 +167,12 @@ cd /Users/abx/rihal/rihal-codestacker/ML/my_submission
 Features:
 
 - Upload receipt image
-- Extracted fields display (`vendor/date/total`)
-- Anomaly status (`is_forged`) with confidence
-- Bounding-box highlights for detected fields
-- In-app model train/refresh trigger
-- Optional LLM-generated anomaly narrative (1-2 sentence explanation)
-
-### 6.1 Optional LLM Narrative (Bonus)
-
-Enable in the UI sidebar with **Enable LLM anomaly summary**.
-
-Environment variables:
-
-- `OPENAI_API_KEY` (or `DOCFUSION_LLM_API_KEY`) - required for API access
-- `DOCFUSION_LLM_MODEL` - optional model override (default: `gpt-4o-mini`)
-- `DOCFUSION_LLM_BASE_URL` - optional OpenAI-compatible endpoint (default: `https://api.openai.com/v1`)
-- `DOCFUSION_LLM_TIMEOUT` - optional request timeout seconds (default: `12`)
-
-When LLM is disabled or unavailable, the app falls back to a deterministic heuristic summary.
+- Live latest-model validation in the sidebar
+- Field extraction review (`vendor/date/total`)
+- Anomaly status with suspicious score vs threshold
+- Bounding-box overlays on extracted fields
+- Field-level review cards showing which extracted fields need human attention
+- Evidence/debug tabs for signals, extracted payload, and raw model output
 
 ## 7) Benchmarking (Latency / Memory / Model Size)
 
@@ -189,6 +210,14 @@ For final standalone challenge submission repo:
 2. Include this README (or adapted version) with full run instructions.
 3. Include notebooks, UI code (`app.py`), benchmark report, dependencies.
 4. Confirm `python3.13 check_submission.py --submission .` passes in your final repo layout.
+
+This submission folder intentionally does **not** need to bundle the raw datasets:
+
+- SROIE
+- Find-It-Again
+- CORD
+
+The codebase includes scripts and documentation to rebuild data views locally, but the raw corpora are large and externally hosted.
 
 ## 10) Remaining External Blockers
 

@@ -29,7 +29,9 @@ from typing import Any
 DATE_CANDIDATE_RE = re.compile(
     r"\b(?:\d{4}[-/.]\d{1,2}[-/.]\d{1,2}|\d{1,2}[-/.]\d{1,2}[-/.]\d{2,4})\b"
 )
-AMOUNT_RE = re.compile(r"(?<!\d)(\d+(?:[.,]\d{2}))(?!\d)")
+AMOUNT_RE = re.compile(
+    r"(?<!\d)(-?\d{1,3}(?:[.,]\d{3})+(?:[.,]\d{2})?|-?\d+(?:[.,]\d{2})|-?\d{2,})(?!\d)"
+)
 TOTAL_HINT_RE = re.compile(r"(total|amount\s*due|grand\s*total|net\s*total)", re.I)
 
 
@@ -64,12 +66,31 @@ def _load_jsonl(path: Path) -> list[dict[str, Any]]:
 def _normalize_total(value: Any) -> str | None:
     if value is None:
         return None
-    token = str(value).replace(",", ".")
-    match = re.search(r"\d+(?:\.\d+)?", token)
+    match = AMOUNT_RE.search(str(value))
     if not match:
         return None
+    token = re.sub(r"[^0-9,.\-]", "", match.group(0))
+    if not token:
+        return None
+    if "," in token and "." in token:
+        if token.rfind(".") > token.rfind(","):
+            token = token.replace(",", "")
+        else:
+            token = token.replace(".", "").replace(",", ".")
+    elif "," in token:
+        head, tail = token.rsplit(",", 1)
+        if len(tail) == 2:
+            token = head.replace(",", "") + "." + tail
+        else:
+            token = head.replace(",", "") + tail
+    elif "." in token:
+        head, tail = token.rsplit(".", 1)
+        if len(tail) == 2:
+            token = head.replace(".", "") + "." + tail if "." in head else token
+        elif len(tail) == 3 and "." in head:
+            token = head.replace(".", "") + tail
     try:
-        amount = float(match.group(0))
+        amount = float(token)
     except ValueError:
         return None
     return f"{amount:.2f}"
@@ -338,6 +359,26 @@ def _normalize_find_it_again_splits(raw: str) -> set[str]:
     return selected
 
 
+def _collect_find_it_again_stems(root: Path, include_splits: set[str] | None = None) -> set[str]:
+    if not root.exists():
+        return set()
+    selected_splits = include_splits or {"train", "val", "test"}
+    stems: set[str] = set()
+    for split in ("train", "val", "test"):
+        if split not in selected_splits:
+            continue
+        split_meta = root / f"{split}.txt"
+        if not split_meta.exists():
+            continue
+        with split_meta.open("r", encoding="utf-8", errors="ignore") as handle:
+            reader = csv.DictReader(handle)
+            for row in reader:
+                image_name = row.get("image") or row.get("filename") or row.get("image_path")
+                if image_name:
+                    stems.add(Path(str(image_name)).stem)
+    return stems
+
+
 def _parse_find_it_again_dir(root: Path, include_splits: set[str] | None = None) -> list[UnifiedRecord]:
     if not root.exists():
         return []
@@ -570,6 +611,11 @@ def main() -> int:
         default="../dummy_data",
         help="Optional fallback source when real datasets are missing",
     )
+    parser.add_argument(
+        "--allow-source-overlap",
+        action="store_true",
+        help="Keep overlapping SROIE / Find-It-Again records instead of filtering them out.",
+    )
     args = parser.parse_args()
 
     raw_root = Path(args.raw_root).resolve()
@@ -579,13 +625,36 @@ def main() -> int:
     external_find_it_again = Path(args.find_it_again_dir).resolve() if args.find_it_again_dir else None
     include_find_it_again_splits = _normalize_find_it_again_splits(args.find_it_again_splits)
 
+    find_it_again_stems: set[str] = set()
+    find_it_again_roots = [raw_root / "find_it_again"]
+    if external_find_it_again and external_find_it_again.exists():
+        find_it_again_roots.append(external_find_it_again)
+    for candidate_root in find_it_again_roots:
+        find_it_again_stems.update(_collect_find_it_again_stems(candidate_root, include_splits={"train", "val", "test"}))
+
     records: list[UnifiedRecord] = []
-    records.extend(_parse_sroie(raw_root))
+    sroie_records = _parse_sroie(raw_root)
+    if find_it_again_stems and not args.allow_source_overlap:
+        before = len(sroie_records)
+        sroie_records = [record for record in sroie_records if record.source_id not in find_it_again_stems]
+        removed = before - len(sroie_records)
+        if removed:
+            print(f"[build] filtered {removed} SROIE records overlapping Find-It-Again stems")
+    records.extend(sroie_records)
     records.extend(_parse_cord(raw_root))
     records.extend(_parse_find_it_again(raw_root, include_splits=include_find_it_again_splits))
 
     if external_sroie and external_sroie.exists():
-        records.extend(_parse_sroie_dir(external_sroie))
+        external_sroie_records = _parse_sroie_dir(external_sroie)
+        if find_it_again_stems and not args.allow_source_overlap:
+            before = len(external_sroie_records)
+            external_sroie_records = [
+                record for record in external_sroie_records if record.source_id not in find_it_again_stems
+            ]
+            removed = before - len(external_sroie_records)
+            if removed:
+                print(f"[build] filtered {removed} external SROIE records overlapping Find-It-Again stems")
+        records.extend(external_sroie_records)
     if external_find_it_again and external_find_it_again.exists():
         records.extend(
             _parse_find_it_again_dir(

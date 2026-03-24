@@ -1,0 +1,27 @@
+{
+  "sroie_test": {
+    "n": 347,
+    "vendor_coverage": 347,
+    "vendor_accuracy": 0.46397694524495675,
+    "date_coverage": 337,
+    "date_accuracy": 0.7566765578635015,
+    "total_coverage": 347,
+    "total_accuracy": 0.5619596541786743,
+    "all_exact_accuracy": 0.2507204610951009,
+    "all_exact_coverage": 347
+  },
+  "cord_validation": {
+    "n": 100,
+    "total_coverage": 98,
+    "total_accuracy": 0.37755102040816324,
+    "all_exact_accuracy": 0.37755102040816324,
+    "all_exact_coverage": 98
+  },
+  "cord_test": {
+    "n": 100,
+    "total_coverage": 95,
+    "total_accuracy": 0.3684210526315789,
+    "all_exact_accuracy": 0.3684210526315789,
+    "all_exact_coverage": 95
+  }
+}

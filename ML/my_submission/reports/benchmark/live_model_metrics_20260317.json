@@ -1,0 +1,116 @@
+{
+  "model_dir": "/Users/abx/rihal/rihal-codestacker/ML/my_submission/tmp_extraction_unified_full_model/model",
+  "workers": 4,
+  "counts": {
+    "findit_val": 192,
+    "findit_test": 218,
+    "sroie_test": 347,
+    "cord_validation": 100,
+    "cord_test": 100
+  },
+  "skipped": {
+    "findit_val": {
+      "missing_image": 1
+    },
+    "findit_test": {}
+  },
+  "metrics": {
+    "findit_val_anomaly": {
+      "n": 192,
+      "accuracy": 0.6979166666666666,
+      "balanced_accuracy": 0.5294453973699257,
+      "forged_recall": 0.2727272727272727,
+      "forged_precision": 0.20930232558139536,
+      "specificity": 0.7861635220125787,
+      "tp": 9,
+      "fp": 34,
+      "tn": 125,
+      "fn": 24
+    },
+    "findit_test_anomaly": {
+      "n": 218,
+      "accuracy": 0.7431192660550459,
+      "balanced_accuracy": 0.6159250585480094,
+      "forged_recall": 0.42857142857142855,
+      "forged_precision": 0.29411764705882354,
+      "specificity": 0.8032786885245902,
+      "tp": 15,
+      "fp": 36,
+      "tn": 147,
+      "fn": 20
+    },
+    "sroie_test_anomaly": {
+      "n": 347,
+      "accuracy": 0.8587896253602305,
+      "balanced_accuracy": 0.42939481268011526,
+      "forged_recall": 0.0,
+      "forged_precision": 0.0,
+      "specificity": 0.8587896253602305,
+      "tp": 0,
+      "fp": 49,
+      "tn": 298,
+      "fn": 0
+    },
+    "cord_validation_anomaly": {
+      "n": 100,
+      "accuracy": 0.73,
+      "balanced_accuracy": 0.365,
+      "forged_recall": 0.0,
+      "forged_precision": 0.0,
+      "specificity": 0.73,
+      "tp": 0,
+      "fp": 27,
+      "tn": 73,
+      "fn": 0
+    },
+    "cord_test_anomaly": {
+      "n": 100,
+      "accuracy": 0.78,
+      "balanced_accuracy": 0.39,
+      "forged_recall": 0.0,
+      "forged_precision": 0.0,
+      "specificity": 0.78,
+      "tp": 0,
+      "fp": 22,
+      "tn": 78,
+      "fn": 0
+    },
+    "all_eval_anomaly": {
+      "n": 957,
+      "accuracy": 0.7784743991640544,
+      "balanced_accuracy": 0.5819823992589161,
+      "forged_recall": 0.35294117647058826,
+      "forged_precision": 0.125,
+      "specificity": 0.8110236220472441,
+      "tp": 24,
+      "fp": 168,
+      "tn": 721,
+      "fn": 44
+    },
+    "sroie_test_extraction": {
+      "n": 347,
+      "vendor_coverage": 347,
+      "vendor_accuracy": 0.46397694524495675,
+      "date_coverage": 337,
+      "date_accuracy": 0.7566765578635015,
+      "total_coverage": 347,
+      "total_accuracy": 0.5619596541786743,
+      "all_exact_accuracy": 0.2507204610951009,
+      "all_exact_coverage": 347
+    },
+    "cord_validation_extraction": {
+      "n": 100,
+      "total_coverage": 98,
+      "total_accuracy": 0.37755102040816324,
+      "all_exact_accuracy": 0.37755102040816324,
+      "all_exact_coverage": 98
+    },
+    "cord_test_extraction": {
+      "n": 100,
+      "total_coverage": 95,
+      "total_accuracy": 0.3684210526315789,
+      "all_exact_accuracy": 0.3684210526315789,
+      "all_exact_coverage": 95
+    }
+  }
+}

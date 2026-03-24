@@ -1,0 +1,21 @@
+{
+  "sroie_test": {
+    "vendor_accuracy": 78.96253602305475,
+    "date_accuracy": 76.36887608069165,
+    "total_accuracy": 49.56772334293948,
+    "all_exact_accuracy": 35.73487031700288,
+    "counts": {
+      "total": 347
+    }
+  },
+  "cord_validation": {
+    "total_accuracy": 36.0,
+    "correct": 36,
+    "total": 100
+  },
+  "cord_test": {
+    "total_accuracy": 34.0,
+    "correct": 34,
+    "total": 100
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "model_dir": "/Users/abx/rihal/rihal-codestacker/ML/my_submission/models/latest/model",
+  "threshold": 0.34,
+  "anomaly": {
+    "findit_val_anomaly": {
+      "n": 192,
+      "accuracy": 0.7135416666666666,
+      "balanced_accuracy": 0.5388793596340766,
+      "forged_recall": 0.2727272727272727,
+      "forged_precision": 0.225,
+      "specificity": 0.8050314465408805,
+      "tp": 9,
+      "fp": 31,
+      "tn": 128,
+      "fn": 24
+    },
+    "findit_test_anomaly": {
+      "n": 218,
+      "accuracy": 0.7522935779816514,
+      "balanced_accuracy": 0.6213895394223263,
+      "forged_recall": 0.42857142857142855,
+      "forged_precision": 0.30612244897959184,
+      "specificity": 0.8142076502732241,
+      "tp": 15,
+      "fp": 34,
+      "tn": 149,
+      "fn": 20
+    },
+    "sroie_test_anomaly": {
+      "n": 347,
+      "accuracy": 0.861671469740634,
+      "balanced_accuracy": 0.430835734870317,
+      "forged_recall": 0.0,
+      "forged_precision": 0.0,
+      "specificity": 0.861671469740634,
+      "tp": 0,
+      "fp": 48,
+      "tn": 299,
+      "fn": 0
+    },
+    "cord_validation_anomaly": {
+      "n": 100,
+      "accuracy": 0.74,
+      "balanced_accuracy": 0.37,
+      "forged_recall": 0.0,
+      "forged_precision": 0.0,
+      "specificity": 0.74,
+      "tp": 0,
+      "fp": 26,
+      "tn": 74,
+      "fn": 0
+    },
+    "cord_test_anomaly": {
+      "n": 100,
+      "accuracy": 0.78,
+      "balanced_accuracy": 0.39,
+      "forged_recall": 0.0,
+      "forged_precision": 0.0,
+      "specificity": 0.78,
+      "tp": 0,
+      "fp": 22,
+      "tn": 78,
+      "fn": 0
+    },
+    "all_eval_anomaly": {
+      "n": 957,
+      "accuracy": 0.7857889237199582,
+      "balanced_accuracy": 0.5859194071329319,
+      "forged_recall": 0.35294117647058826,
+      "forged_precision": 0.12972972972972974,
+      "specificity": 0.8188976377952756,
+      "tp": 24,
+      "fp": 161,
+      "tn": 728,
+      "fn": 44
+    }
+  },
+  "extraction": {
+    "sroie_test": {
+      "n": 347,
+      "vendor_coverage": 347,
+      "vendor_accuracy": 0.46397694524495675,
+      "date_coverage": 337,
+      "date_accuracy": 0.7566765578635015,
+      "total_coverage": 347,
+      "total_accuracy": 0.5619596541786743,
+      "all_exact_accuracy": 0.2507204610951009,
+      "all_exact_coverage": 347
+    },
+    "cord_validation": {
+      "n": 100,
+      "total_coverage": 98,
+      "total_accuracy": 0.37755102040816324,
+      "all_exact_accuracy": 0.37755102040816324,
+      "all_exact_coverage": 98
+    },
+    "cord_test": {
+      "n": 100,
+      "total_coverage": 95,
+      "total_accuracy": 0.3684210526315789,
+      "all_exact_accuracy": 0.3684210526315789,
+      "all_exact_coverage": 95
+    }
+  }
+}

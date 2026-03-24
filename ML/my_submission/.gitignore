@@ -8,4 +8,6 @@ data/processed/
 models/
 tmp_work/
 tmp_benchmark/
+tmp_*
+reports/benchmark/step_compare*_results.*
 *.pkl
